@@ -1,4 +1,4 @@
-package edu.ucne.registroestudiantes.presentation.tareas.edit
+package edu.ucne.registroestudiantes.presentation.tareas.edit.Estudiante
 
 data class EditEstudianteUIState(
     val nombres: String = "",

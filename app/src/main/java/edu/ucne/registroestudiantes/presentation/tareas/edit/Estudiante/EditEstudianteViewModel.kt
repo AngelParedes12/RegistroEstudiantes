@@ -1,4 +1,4 @@
-package edu.ucne.registroestudiantes.presentation.tareas.edit
+package edu.ucne.registroestudiantes.presentation.tareas.edit.Estudiante
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
