@@ -1,4 +1,4 @@
-package edu.ucne.registroestudiantes.presentation.tareas.list
+package edu.ucne.registroestudiantes.presentation.tareas.list.Estudiante
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,14 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -29,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import edu.ucne.registroestudiantes.domain.model.Estudiante
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListEstudianteScreen(
     onAddClick: () -> Unit,
@@ -42,18 +39,10 @@ fun ListEstudianteScreen(
     }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Lista de estudiantes") }
-            )
-        },
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddClick) {
-                Text("+")
-            }
+            FloatingActionButton(onClick = onAddClick) { Text("+") }
         }
     ) { padding ->
-
         Box(
             modifier = Modifier
                 .padding(padding)
@@ -64,14 +53,15 @@ fun ListEstudianteScreen(
                 Text("No hay estudiantes registrados")
             } else {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp)
                 ) {
                     items(state.estudiantes) { estudiante ->
                         EstudianteItem(
                             estudiante = estudiante,
-                            onEliminar = {
-                                viewModel.eliminar(it)
-                            }
+                            onEliminar = { viewModel.eliminar(it) }
                         )
                     }
                 }
@@ -97,19 +87,13 @@ fun EstudianteItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text(
-                    text = estudiante.nombres,
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text(text = estudiante.nombres, style = MaterialTheme.typography.titleMedium)
                 Text(text = estudiante.email)
                 Text(text = "Edad: ${estudiante.edad}")
             }
 
             IconButton(onClick = { onEliminar(estudiante) }) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Eliminar"
-                )
+                Icon(imageVector = Icons.Default.Delete, contentDescription = "Eliminar")
             }
         }
     }

@@ -1,4 +1,4 @@
-package edu.ucne.registroestudiantes.presentation.tareas.edit
+package edu.ucne.registroestudiantes.presentation.tareas.edit.Estudiante
 
 sealed interface EditEstudianteUIEvent {
     data class OnNombreChange(val value: String) : EditEstudianteUIEvent

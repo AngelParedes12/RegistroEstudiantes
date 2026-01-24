@@ -5,8 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import edu.ucne.registroestudiantes.presentation.navigation.appNavHost.AppNavHost
+import edu.ucne.registroestudiantes.presentation.navigation.DrawerShell
 import edu.ucne.registroestudiantes.ui.theme.RegistroEstudiantesTheme
 
 @AndroidEntryPoint
@@ -17,7 +18,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RegistroEstudiantesTheme {
-                AppNavHost(
+                val navController = rememberNavController()
+                DrawerShell(
+                    navController = navController,
                     modifier = Modifier.fillMaxSize()
                 )
             }

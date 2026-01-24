@@ -1,4 +1,4 @@
-package edu.ucne.registroestudiantes.presentation.tareas.list
+package edu.ucne.registroestudiantes.presentation.tareas.list.Estudiante
 
 import edu.ucne.registroestudiantes.domain.model.Estudiante
 
