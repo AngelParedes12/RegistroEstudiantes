@@ -2,37 +2,46 @@ package edu.ucne.registroestudiantes.presentation.navigation.appNavHost
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import edu.ucne.registroestudiantes.presentation.navigation.routes.Routes
-import edu.ucne.registroestudiantes.presentation.tareas.edit.EditEstudianteScreen
-import edu.ucne.registroestudiantes.presentation.tareas.list.ListEstudianteScreen
+import edu.ucne.registroestudiantes.presentation.tareas.edit.Estudiante.EditEstudianteScreen
+import edu.ucne.registroestudiantes.presentation.tareas.list.Estudiante.ListEstudianteScreen
+import edu.ucne.registroestudiantes.presentation.tareas.asignaturas.edit.EditAsignaturaScreen
+import edu.ucne.registroestudiantes.presentation.tareas.asignaturas.list.ListAsignaturaScreen
 
 @Composable
 fun AppNavHost(
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    val navController = rememberNavController()
-
     NavHost(
         navController = navController,
-        startDestination = Routes.List.route,
+        startDestination = Routes.ListEstudiantes.route,
         modifier = modifier
     ) {
-        composable(Routes.List.route) {
+        composable(Routes.ListEstudiantes.route) {
             ListEstudianteScreen(
-                onAddClick = {
-                    navController.navigate(Routes.Edit.route)
-                }
+                onAddClick = { navController.navigate(Routes.EditEstudiante.route) }
             )
         }
 
-        composable(Routes.Edit.route) {
+        composable(Routes.EditEstudiante.route) {
             EditEstudianteScreen(
-                onBack = {
-                    navController.popBackStack()
-                }
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.ListAsignaturas.route) {
+            ListAsignaturaScreen(
+                onAddClick = { navController.navigate(Routes.EditAsignatura.route) }
+            )
+        }
+
+        composable(Routes.EditAsignatura.route) {
+            EditAsignaturaScreen(
+                onBack = { navController.popBackStack() }
             )
         }
     }
