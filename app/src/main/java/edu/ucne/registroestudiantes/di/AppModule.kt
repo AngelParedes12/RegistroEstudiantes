@@ -7,9 +7,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import edu.ucne.registroestudiantes.data.local.dao.AsignaturaDao
 import edu.ucne.registroestudiantes.data.local.dao.EstudianteDao
 import edu.ucne.registroestudiantes.data.local.database.AppDatabase
+import edu.ucne.registroestudiantes.data.repository.AsignaturaRepositoryImpl
 import edu.ucne.registroestudiantes.data.repository.EstudianteRepositoryImpl
+import edu.ucne.registroestudiantes.domain.repository.AsignaturaRepository
 import edu.ucne.registroestudiantes.domain.repository.EstudianteRepository
 import javax.inject.Singleton
 
@@ -21,13 +24,12 @@ object AppModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ): AppDatabase {
-        return Room.databaseBuilder(
+    ): AppDatabase =
+        Room.databaseBuilder(
             context,
             AppDatabase::class.java,
             "estudiantes_db"
         ).build()
-    }
 
     @Provides
     fun provideEstudianteDao(
@@ -35,10 +37,19 @@ object AppModule {
     ): EstudianteDao = db.estudianteDao()
 
     @Provides
+    fun provideAsignaturaDao(
+        db: AppDatabase
+    ): AsignaturaDao = db.asignaturaDao()
+
+    @Provides
     @Singleton
     fun provideEstudianteRepository(
         dao: EstudianteDao
-    ): EstudianteRepository {
-        return EstudianteRepositoryImpl(dao)
-    }
+    ): EstudianteRepository = EstudianteRepositoryImpl(dao)
+
+    @Provides
+    @Singleton
+    fun provideAsignaturaRepository(
+        dao: AsignaturaDao
+    ): AsignaturaRepository = AsignaturaRepositoryImpl(dao)
 }
