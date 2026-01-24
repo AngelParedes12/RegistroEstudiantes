@@ -1,11 +1,10 @@
-package edu.ucne.registroestudiantes.presentation.navigation.appNavHost
+package edu.ucne.registroestudiantes.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import edu.ucne.registroestudiantes.presentation.navigation.routes.Routes
 import edu.ucne.registroestudiantes.presentation.tareas.edit.Estudiante.EditEstudianteScreen
 import edu.ucne.registroestudiantes.presentation.tareas.list.Estudiante.ListEstudianteScreen
 import edu.ucne.registroestudiantes.presentation.tareas.asignaturas.edit.EditAsignaturaScreen

@@ -25,8 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import edu.ucne.registroestudiantes.presentation.navigation.appNavHost.AppNavHost
-import edu.ucne.registroestudiantes.presentation.navigation.routes.Routes
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,16 +44,14 @@ fun DrawerShell(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                Column(
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
+                Column(modifier = Modifier.padding(top = 8.dp)) {
+
                     NavigationDrawerItem(
                         label = { Text("Estudiantes") },
                         selected = currentRoute == Routes.ListEstudiantes.route,
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.ListEstudiantes.route) {
-                                popUpTo(Routes.ListEstudiantes.route) { inclusive = true }
                                 launchSingleTop = true
                             }
                         },
@@ -68,7 +64,6 @@ fun DrawerShell(
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.ListAsignaturas.route) {
-                                popUpTo(Routes.ListEstudiantes.route) { inclusive = false }
                                 launchSingleTop = true
                             }
                         },
@@ -93,7 +88,14 @@ fun DrawerShell(
                     },
                     navigationIcon = {
                         if (isEdit) {
-                            IconButton(onClick = { navController.popBackStack() }) {
+                            IconButton(
+                                onClick = {
+                                    when (currentRoute) {
+                                        Routes.EditAsignatura.route -> navController.navigate(Routes.ListAsignaturas.route) { launchSingleTop = true }
+                                        else -> navController.navigate(Routes.ListEstudiantes.route) { launchSingleTop = true }
+                                    }
+                                }
+                            ) {
                                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                             }
                         } else {
