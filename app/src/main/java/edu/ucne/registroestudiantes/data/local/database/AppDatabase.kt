@@ -9,7 +9,7 @@ import edu.ucne.registroestudiantes.data.local.entities.AsignaturaEntity
 
 @Database(
     entities = [EstudianteEntity::class, AsignaturaEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
