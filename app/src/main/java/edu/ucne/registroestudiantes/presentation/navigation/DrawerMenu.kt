@@ -1,116 +1,93 @@
 package edu.ucne.registroestudiantes.presentation.navigation
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.filled.Gavel
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrawerShell(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+fun DrawerMenu(
+    drawerState: DrawerState,
+    navHostController: NavHostController,
+    content: @Composable () -> Unit
 ) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val selectedItem = remember { mutableStateOf("Estudiantes") }
     val scope = rememberCoroutineScope()
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route
 
-    val isEdit = currentRoute == Screen.EditEstudiante.route || currentRoute == Screen.EditAsignatura.route
+    fun handleItemClick(destination: Screen, item: String) {
+        navHostController.navigate(destination) { launchSingleTop = true }
+        selectedItem.value = item
+        scope.launch { drawerState.close() }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
-                Column(modifier = Modifier.padding(top = 8.dp)) {
+            ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
+                Spacer(modifier = Modifier.height(16.dp))
 
-                    NavigationDrawerItem(
-                        label = { Text("Estudiantes") },
-                        selected = currentRoute == Screen.ListEstudiantes.route,
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(Screen.ListEstudiantes.route) {
-                                launchSingleTop = true
-                            }
-                        },
-                        icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) }
-                    )
+                Text(
+                    text = "Registro Académico",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.DarkGray,
+                    modifier = Modifier.padding(16.dp)
+                )
 
-                    NavigationDrawerItem(
-                        label = { Text("Asignaturas") },
-                        selected = currentRoute == Screen.ListAsignaturas.route,
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(Screen.ListAsignaturas.route) {
-                                launchSingleTop = true
-                            }
-                        },
-                        icon = { Icon(Icons.Filled.Book, contentDescription = null) }
-                    )
+                HorizontalDivider()
+                Spacer(modifier = Modifier.height(16.dp))
+
+                LazyColumn {
+                    item {
+                        DrawerItem(
+                            title = "Estudiantes",
+                            icon = Icons.Filled.Person,
+                            isSelected = selectedItem.value == "Estudiantes"
+                        ) {
+                            handleItemClick(Screen.ListEstudiantes, it)
+                        }
+
+                        DrawerItem(
+                            title = "Asignaturas",
+                            icon = Icons.Filled.Book,
+                            isSelected = selectedItem.value == "Asignaturas"
+                        ) {
+                            handleItemClick(Screen.ListAsignaturas, it)
+                        }
+
+                        DrawerItem(
+                            title = "Tipo Penalidad",
+                            icon = Icons.Filled.Gavel,
+                            isSelected = selectedItem.value == "Tipo Penalidad"
+                        ) {
+                            handleItemClick(Screen.ListTipoPenalidad, it)
+                        }
+                    }
                 }
             }
         }
     ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            when (currentRoute) {
-                                Screen.ListAsignaturas.route -> "Asignaturas"
-                                Screen.EditAsignatura.route -> "Registrar Asignatura"
-                                Screen.EditEstudiante.route -> "Registrar Estudiante"
-                                else -> "Estudiantes"
-                            }
-                        )
-                    },
-                    navigationIcon = {
-                        if (isEdit) {
-                            IconButton(
-                                onClick = {
-                                    when (currentRoute) {
-                                        Screen.EditAsignatura.route -> navController.navigate(Screen.ListAsignaturas.route) { launchSingleTop = true }
-                                        else -> navController.navigate(Screen.ListEstudiantes.route) { launchSingleTop = true }
-                                    }
-                                }
-                            ) {
-                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
-                            }
-                        } else {
-                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(Icons.Filled.Menu, contentDescription = null)
-                            }
-                        }
-                    }
-                )
-            }
-        ) { padding ->
-            AppNavHost(
-                navController = navController,
-                modifier = modifier.padding(padding)
-            )
-        }
+        content()
     }
 }
