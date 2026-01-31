@@ -27,6 +27,16 @@ class UpsertTipoPenalidadUseCase @Inject constructor(
             return Result.failure(IllegalArgumentException(puntosResult.error))
         }
 
+        val exists = repository.existsNombre(
+            nombre = tipoPenalidad.nombre,
+            excludeId = tipoPenalidad.penalidadId
+        )
+        if (exists) {
+            return Result.failure(
+                IllegalArgumentException("Ya existe un tipo de penalidad registrado con este nombre")
+            )
+        }
+
         return runCatching { repository.upsert(tipoPenalidad) }
     }
 }

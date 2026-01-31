@@ -25,12 +25,16 @@ class TipoPenalidadRepositoryImpl @Inject constructor(
         return localDataSource.getById(id)?.toDomain()
     }
 
-    override suspend fun upsert(TipoPenalidad: TipoPenalidad): Int {
-        val newId = localDataSource.upsert(TipoPenalidad.toEntity()).toInt()
-        return if (TipoPenalidad.penalidadId == 0) newId else TipoPenalidad.penalidadId
+    override suspend fun upsert(tipoPenalidad: TipoPenalidad): Int {
+        val newId = localDataSource.upsert(tipoPenalidad.toEntity()).toInt()
+        return if (tipoPenalidad.penalidadId == 0) newId else tipoPenalidad.penalidadId
     }
 
     override suspend fun delete(id: Int) {
         localDataSource.deleteById(id)
+    }
+
+    override suspend fun existsNombre(nombre: String, excludeId: Int): Boolean {
+        return localDataSource.countByNombre(nombre, excludeId) > 0
     }
 }

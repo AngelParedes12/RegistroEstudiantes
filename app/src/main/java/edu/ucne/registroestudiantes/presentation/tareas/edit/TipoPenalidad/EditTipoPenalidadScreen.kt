@@ -73,6 +73,13 @@ fun EditTipoPenalidadScreen(
                 singleLine = true
             )
 
+            if (state.nombreError != null) {
+                Text(
+                    state.nombreError!!,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
             OutlinedTextField(
                 value = state.descripcion,
                 onValueChange = { viewModel.onEvent(EditTipoPenalidadUiEvent.DescriptionChange(it)) },
@@ -82,9 +89,17 @@ fun EditTipoPenalidadScreen(
                     .testTag("input_description"),
                 isError = state.descripcionError != null,
                 supportingText = state.descripcionError?.let { { Text(it) } },
+                singleLine = false,
                 minLines = 3,
                 maxLines = 5
             )
+
+            if (state.descripcionError != null) {
+                Text(
+                    state.descripcionError!!,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
 
             OutlinedTextField(
                 value = state.puntosDescuento,
@@ -98,6 +113,13 @@ fun EditTipoPenalidadScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
             )
+
+            if (state.puntosDescuentoError != null) {
+                Text(
+                    state.puntosDescuentoError!!,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
 
             Button(
                 onClick = { viewModel.onEvent(EditTipoPenalidadUiEvent.Save) },

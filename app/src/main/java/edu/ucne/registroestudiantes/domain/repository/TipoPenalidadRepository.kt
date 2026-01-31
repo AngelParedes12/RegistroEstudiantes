@@ -8,4 +8,5 @@ interface TipoPenalidadRepository {
     suspend fun getTipoPenalidad(id: Int): TipoPenalidad?
     suspend fun upsert(tipoPenalidad: TipoPenalidad): Int
     suspend fun delete(id: Int)
+    suspend fun existsNombre(nombre: String, excludeId: Int): Boolean
 }
