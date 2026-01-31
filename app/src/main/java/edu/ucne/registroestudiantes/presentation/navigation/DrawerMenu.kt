@@ -38,7 +38,7 @@ fun DrawerShell(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
-    val isEdit = currentRoute == Screen.EditEstudiante.route || currentRoute == Screen.EditAsignatura.route
+    val isEdit = currentRoute == Routes.EditEstudiante.route || currentRoute == Routes.EditAsignatura.route
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -48,10 +48,10 @@ fun DrawerShell(
 
                     NavigationDrawerItem(
                         label = { Text("Estudiantes") },
-                        selected = currentRoute == Screen.ListEstudiantes.route,
+                        selected = currentRoute == Routes.ListEstudiantes.route,
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Screen.ListEstudiantes.route) {
+                            navController.navigate(Routes.ListEstudiantes.route) {
                                 launchSingleTop = true
                             }
                         },
@@ -60,10 +60,10 @@ fun DrawerShell(
 
                     NavigationDrawerItem(
                         label = { Text("Asignaturas") },
-                        selected = currentRoute == Screen.ListAsignaturas.route,
+                        selected = currentRoute == Routes.ListAsignaturas.route,
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Screen.ListAsignaturas.route) {
+                            navController.navigate(Routes.ListAsignaturas.route) {
                                 launchSingleTop = true
                             }
                         },
@@ -79,9 +79,9 @@ fun DrawerShell(
                     title = {
                         Text(
                             when (currentRoute) {
-                                Screen.ListAsignaturas.route -> "Asignaturas"
-                                Screen.EditAsignatura.route -> "Registrar Asignatura"
-                                Screen.EditEstudiante.route -> "Registrar Estudiante"
+                                Routes.ListAsignaturas.route -> "Asignaturas"
+                                Routes.EditAsignatura.route -> "Registrar Asignatura"
+                                Routes.EditEstudiante.route -> "Registrar Estudiante"
                                 else -> "Estudiantes"
                             }
                         )
@@ -91,8 +91,8 @@ fun DrawerShell(
                             IconButton(
                                 onClick = {
                                     when (currentRoute) {
-                                        Screen.EditAsignatura.route -> navController.navigate(Screen.ListAsignaturas.route) { launchSingleTop = true }
-                                        else -> navController.navigate(Screen.ListEstudiantes.route) { launchSingleTop = true }
+                                        Routes.EditAsignatura.route -> navController.navigate(Routes.ListAsignaturas.route) { launchSingleTop = true }
+                                        else -> navController.navigate(Routes.ListEstudiantes.route) { launchSingleTop = true }
                                     }
                                 }
                             ) {
