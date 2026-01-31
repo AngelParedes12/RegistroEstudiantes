@@ -17,28 +17,28 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.ListEstudiantes.route,
+        startDestination = Routes.ListEstudiantes.route,
         modifier = modifier
     ) {
-        composable(Screen.ListEstudiantes.route) {
+        composable(Routes.ListEstudiantes.route) {
             ListEstudianteScreen(
-                onAddClick = { navController.navigate(Screen.EditEstudiante.route) }
+                onAddClick = { navController.navigate(Routes.EditEstudiante.route) }
             )
         }
 
-        composable(Screen.EditEstudiante.route) {
+        composable(Routes.EditEstudiante.route) {
             EditEstudianteScreen(
                 onBack = { navController.popBackStack() }
             )
         }
 
-        composable(Screen.ListAsignaturas.route) {
+        composable(Routes.ListAsignaturas.route) {
             ListAsignaturaScreen(
-                onAddClick = { navController.navigate(Screen.EditAsignatura.route) }
+                onAddClick = { navController.navigate(Routes.EditAsignatura.route) }
             )
         }
 
-        composable(Screen.EditAsignatura.route) {
+        composable(Routes.EditAsignatura.route) {
             EditAsignaturaScreen(
                 onBack = { navController.popBackStack() }
             )
