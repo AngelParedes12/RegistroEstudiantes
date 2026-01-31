@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.material3)
     ksp("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("com.google.dagger:hilt-android:2.51")
